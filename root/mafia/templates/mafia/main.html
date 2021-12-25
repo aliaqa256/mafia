@@ -1,0 +1,78 @@
+{% extends './base.html' %}
+
+
+
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+      {{ message.tags }} {{ message }}
+    {% endfor %}
+{% endif %}
+
+<div>
+
+    <h1 class="text-center">  mafia</h1>
+</div>
+
+<div  class="container">
+
+<hr>
+
+
+
+<form   class="form form-control"   method="post" >
+
+{% csrf_token %}
+
+<label for="">palyers</label>
+<input class="form form-control" type="text" name='players' placeholder="first,secend...." >
+<br>
+<label for="">emails</label>
+<input class="form form-control" type="text" name='emails'  placeholder="first,secend....">
+
+<br>
+<label for="">roles</label>
+<input class="form form-control" type="text" name='roles'  placeholder="first,secend....">
+
+<br>
+<button class="btn-success form form-control" type="submit"> start game</button>
+
+
+
+</form>
+
+<hr>
+<form action="{% url 'main:clear'%}" method="post">
+{% csrf_token %}
+    <button class="form form-control btn-danger"  type="submit"> clear</button>
+
+</form>
+
+<hr>
+<br>
+{% for player in players %}
+<form action="{% url 'main:kill'  %}"  method="post" >
+    {% csrf_token %}
+<div class="card text-center    " >
+  <h5 class="card-header">{{player.id}}</h5>
+  <div class="card-body">
+    <h5 class="card-title">{{player.name}}</h5>
+    <p class="card-text">this player is alive</p>
+    <input type="hidden"  name="pk" value="{{player.id}}" />
+    <button  class="btn btn-primary" type="submit">kill this user</button>
+  </div>
+</div>
+<hr>
+
+</form>
+
+{% endfor %}
+
+
+</div>
+
+
+
+{% endblock %}
+
